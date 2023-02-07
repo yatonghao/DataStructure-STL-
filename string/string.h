@@ -10,22 +10,18 @@ namespace hyt {
                 _str = new char[_capacity + 1];
                 strcpy(_str, str);
             }
+
             string(const string& s) 
+                :_str(nullptr)
+                ,_size(0)
+                ,_capacity(0)
             {
-                _str = new char[s._capacity + 1];
-                _size = s._size;
-                _capacity = s._capacity;
-                strcpy(_str, s._str);
+                string tmp(s._str);
+                swap(tmp);
             }
-            string& operator=(const string& s) {
-                if(this != &s) {
-                    char* tmp = new char[_capacity + 1];
-                    strcpy(tmp, _str);
-                    delete[] _str;
-                    _str = tmp;
-                    _size = s._size;
-                    _capacity = s.capacity();
-                }
+            
+            string& operator=(string s) {
+                swap(s);
                 return *this;
             }
             ~string() {
@@ -80,9 +76,9 @@ namespace hyt {
                 _str[_size] = '\0';
             }
             void swap(string& s) {
-                str::swap(_str,s._str);
-                str::swap(_size,s._size);
-                str::swap(_capacity,s._capacity);
+                std::swap(_str,s._str);
+                std::swap(_size,s._size);
+                std::swap(_capacity,s._capacity);
             }
 
             const char* c_str()const {
